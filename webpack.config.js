@@ -1,7 +1,7 @@
 import path from 'path';
 
 const config = {
-  entry: path.resolve(__dirname, 'js', 'app.js'),
+  entry: path.resolve(__dirname, 'js', 'index.js'),
   resolve: {
     modules: [
       'node_modules',

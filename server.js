@@ -35,7 +35,7 @@ if (process.env.NODE_ENV !== 'test') {
   mongoose.connect('mongodb://127.0.0.1/owambe-test', { useMongoClient: true });
 }
 
-function startAppServer(callback) {
+function startAppServer (callback) {
   // Serve the Relay app
   const compiler = webpack(config);
   appServer = new WebpackDevServer(compiler, {
@@ -55,7 +55,6 @@ function startAppServer(callback) {
     console.log('owambe db opened');
   });
 
-
   appServer.listen(APP_PORT, () => {
     console.log(`App is now running on http://localhost:${APP_PORT}`);
     if (callback) {
@@ -64,7 +63,7 @@ function startAppServer(callback) {
   });
 }
 
-function startGraphQLServer(callback) {
+function startGraphQLServer (callback) {
   // Expose a GraphQL endpoint
   clean('./data/schema/index.js');
   app.use('/graphql', graphQLHTTP({
@@ -82,7 +81,7 @@ function startGraphQLServer(callback) {
   });
 }
 
-function startServers(callback) {
+function startServers (callback) {
   // Shut down the servers
   if (appServer) {
     appServer.listeningApp.close();
@@ -95,7 +94,7 @@ function startServers(callback) {
   exec('npm run update-schema', (error, stdout) => {
     console.log(stdout);
     let doneTasks = 0;
-    function handleTaskDone() {
+    function handleTaskDone () {
       doneTasks++;
       if (doneTasks === 2 && callback) {
         callback();
@@ -105,7 +104,7 @@ function startServers(callback) {
     startAppServer(handleTaskDone);
   });
 }
-const watcher = chokidar.watch('./data/{database,schema}.js');
+const watcher = chokidar.watch('./data/{schema}.js');
 watcher.on('change', (path) => {
   console.log(`\`${path}\` changed. Restarting.`);
   startServers(() =>
